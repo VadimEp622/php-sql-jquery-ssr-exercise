@@ -38,7 +38,6 @@ display_flash_message(FLASH_OPERATION_FORUM_DELETE);
 
     <script>
         $(document).ready(function() {
-            // TODO: add some bootstrap styling
             flash_timeout_remove()
         });
     </script>
