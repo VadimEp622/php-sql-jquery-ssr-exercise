@@ -8,7 +8,7 @@ $res = array('error' => false, 'message' => 'Template message');
 
 $id = $_POST['id'];
 if (!is_numeric($id)) {
-    $res['message'] = "invalid form id";
+    create_flash_message(FLASH_OPERATION_FORUM_DELETE, "Forum deletion failed - invalid form id", FLASH_ERROR);
 } else {
 
     $sql = "DELETE FROM Forums WHERE id = ?";
@@ -36,5 +36,5 @@ if (isset($_POST['current_route']) && in_array($_POST['current_route'], $routes)
 
 
 
-Header("Location: ../../" . $redirectRoute );
+Header("Location: ../../" . $redirectRoute);
 die();
