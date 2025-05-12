@@ -3,7 +3,8 @@ session_start();
 require_once __DIR__ . '/services/php/flash.services.php';
 // TODO:
 // 1) add some bootstrap styling
-// 2) add user/forums components/operations 
+// 2) make flash message not interfere with dom elements
+// 3) add user/forums components/operations 
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);

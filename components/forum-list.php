@@ -45,7 +45,7 @@ if (!in_array($currentRoute, $routes)) {
             <?php foreach ($res['forums'] as $value) : ?>
                 <li>
                     <p><?= $value['title'] ?></p>
-                    <form action="operations/forum/delete.php" method="post">
+                    <form action="operations/forums/delete.php" method="post">
                         <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
                         <input type="hidden" name="id" value="<?= $value['id'] ?>">
                         <button><i class="bi bi-trash"></i></button>
