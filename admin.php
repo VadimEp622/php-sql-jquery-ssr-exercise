@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/service/php/flash.service.php';
+require_once __DIR__ . '/services/php/flash.services.php';
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);
@@ -27,7 +27,7 @@ display_flash_message(FLASH_OPERATION_FORUM_DELETE);
     <?php include_once __DIR__ . '/components/forum-create-form.php' ?>
     <?php include_once __DIR__ . '/components/forum-list.php' ?>
 
-    <script src="service/js/utils.service.js"></script>
+    <script src="services/js/utils.services.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {

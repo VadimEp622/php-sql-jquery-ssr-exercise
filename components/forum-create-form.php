@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
+require_once __DIR__ . '/../services/php/flash.services.php';
 
 $res = array('error' => false, 'message' => 'Template error message');
 
