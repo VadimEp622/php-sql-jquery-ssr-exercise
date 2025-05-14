@@ -39,7 +39,7 @@ function create_flash_message(string $name, string $message, string $type): void
 function format_flash_message(array $flash_message): string
 {
     return sprintf(
-        '<div id="flash_message" data-timeout="%s" class="alert alert-%s fade show">%s</div>',
+        '<div id="flash_message" data-timeout="%s" class="alert alert-%s fade show position-absolute top-0 right-0 left-0 opacity-60 z-index-1000 w-100">%s</div>',
         FLASH_TIMEOUT,
         get_valid_flash_type_class_string($flash_message['type']),
         $flash_message['message']
