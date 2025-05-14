@@ -4,7 +4,7 @@ const ROUTES = array('index.php', 'admin.php');
 
 function redirect_to_current_page_and_die()
 {
-    $currentRoute = explode('/', htmlspecialchars($_SERVER["PHP_SELF"]))[4];
+    $currentRoute = basename(htmlspecialchars($_SERVER["PHP_SELF"]));
     $redirectRoute = '';
 
     if (!in_array($currentRoute, ROUTES)) {
@@ -21,7 +21,7 @@ function redirect_to_current_page_and_die()
 
 function get_current_route()
 {
-    $currentRoute = explode('/', htmlspecialchars($_SERVER["PHP_SELF"]))[4];
+    $currentRoute = basename(htmlspecialchars($_SERVER["PHP_SELF"]));
 
     if (!in_array($currentRoute, ROUTES)) {
         $currentRoute = 'index.php';

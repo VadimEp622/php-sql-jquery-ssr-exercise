@@ -12,6 +12,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);
 
+
 ?>
 
 <!DOCTYPE html>
