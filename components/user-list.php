@@ -16,7 +16,7 @@ if ($result) {
     $res['users'] = $users;
 
     if (count($users) == 0) {
-        // TODO: consider making a seperate operation for inserting template data, and on this page, having a button called "generate demo users
+        // TODO: consider making a seperate operation for inserting template data, and on this page, having a button called "generate demo users"
         $demo_users = get_demo_users();
 
         foreach ($demo_users as $value) {

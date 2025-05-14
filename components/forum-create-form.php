@@ -34,8 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-
-
 ?>
 
 
@@ -48,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if ($validation['title']['error']) : ?>
                 <p class="text-danger"><?= $validation['title']['message'] ?></p>
             <?php endif ?>
-
         </div>
         <div>
             <input type="submit" value="Submit">
