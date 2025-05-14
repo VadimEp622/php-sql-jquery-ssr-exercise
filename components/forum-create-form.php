@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/flash.services.php';
+require_once __DIR__ . '/../services/php/utils.services.php';
 
 $res = array('error' => false, 'message' => 'Template error message');
 
@@ -28,22 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
 
-        $routes = array('index.php', 'admin.php');
-        $currentRoute = explode('/', htmlspecialchars($_SERVER["PHP_SELF"]))[4];
-        $redirectRoute = '';
-
-        if (!in_array($currentRoute, $routes)) {
-            $currentRoute = 'index.php';
-        }
-
-        if ($currentRoute !== 'index.php') {
-            $redirectRoute = $currentRoute;
-        }
-
-
-        // Header("Location: ./" . $redirectRoute . "?" . http_build_query($res));
-        Header("Location: ./" . $redirectRoute);
-        die();
+        redirect_to_current_page_and_die();
     }
 }
 

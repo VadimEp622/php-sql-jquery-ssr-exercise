@@ -24,6 +24,7 @@ display_flash_message(FLASH_OPERATION_FORUM_DELETE);
 <body>
     <?php include_once __DIR__ . '/components/navbar.php' ?>
     <h1>ADMIN</h1>
+    <?php include_once __DIR__ . '/components/user-list.php' ?>
     <?php include_once __DIR__ . '/components/forum-create-form.php' ?>
     <?php include_once __DIR__ . '/components/forum-list.php' ?>
 

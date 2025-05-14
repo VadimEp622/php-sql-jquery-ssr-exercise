@@ -1,5 +1,10 @@
 <?php
 
+// ##################################### HELP #####################################
+// 1) when loading page, only 1 flash message must be displayed - budget accordingly
+// ################################################################################
+
+
 const FLASH = 'FLASH_MESSAGES';
 const FLASH_TIMEOUT = 2000;
 
