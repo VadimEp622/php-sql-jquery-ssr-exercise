@@ -23,7 +23,7 @@ if (!is_numeric($id)) {
     }
 }
 
-// TODO: abstract to utils function get_validated_route($route)
+// TODO: abstract to utils function get_validated_route($route = '')
 $routes = array('index.php', 'admin.php');
 
 $redirectRoute = '';
