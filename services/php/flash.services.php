@@ -15,6 +15,7 @@ const FLASH_SUCCESS = 'success';
 
 const FLASH_OPERATION_FORUM_DELETE = 'forum_delete';
 const FLASH_OPERATION_FORUM_CREATE = 'forum_create';
+const FLASH_OPERATION_USER_DELETE = 'user_delete';
 
 
 /**
