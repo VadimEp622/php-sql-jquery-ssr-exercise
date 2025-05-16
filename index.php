@@ -5,7 +5,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // TODO:
 // 1) add some bootstrap styling
 // 2) add user/forums components/operations 
-// 3) add env variables
+// 3) add env variables - (simplest and best way is to use .env, however it requires composer)
 // 4) add forums sorting
 // 5) add user delete
 
