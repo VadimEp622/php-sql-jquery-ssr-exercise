@@ -8,7 +8,7 @@ $res = array('error' => false, 'message' => 'Template error message');
 $sql = "SELECT id, full_name, email, age, phone_number FROM Users";
 $result = $conn->query($sql);
 
-if ($result) {
+if (true) {
     $users  = array();
     while ($row = $result->fetch_assoc()) {
         array_push($users, $row);
@@ -16,22 +16,16 @@ if ($result) {
     $res['users'] = $users;
 
     if (count($users) == 0) {
-        // TODO: consider making a seperate operation for inserting template data, and on this page, having a button called "generate demo users"
-        $demo_users = get_demo_users();
-
-        foreach ($demo_users as $value) {
-            $sql = "INSERT INTO Users (full_name, email, password, age, phone_number) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssis", $value['full_name'], $value['email'], $value['password'], $value['age'], $value['phone_number']); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-            $stmt->execute();
-        }
-
-        redirect_to_current_page_and_die();
+        $res['error']   = true;
+        $res['message'] = "No users found!";
+        $res['is_error_no_users'] = true;
     }
 } else {
     $res['error']   = true;
     $res['message'] = "Forums list fetch failed!";
 }
+
+$currentRoute = get_current_route();
 
 
 ?>
@@ -39,7 +33,15 @@ if ($result) {
 <section>
     <h3>User list</h3>
     <?php if ($res['error']) : ?>
-        <p style="color: red;"><?= $res['message'] ?></p>
+        <div class="d-flex gap-2">
+            <p style="color: red;"><?= $res['message'] ?></p>
+            <?php if (isset($res['is_error_no_users']) && $res['is_error_no_users']) : ?>
+                <form action="operations/users/populate.php" method="post">
+                    <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
+                    <button>Populate demo users</button>
+                </form>
+            <?php endif ?>
+        </div>
     <?php else : ?>
         <table class="table">
             <thead>
@@ -49,6 +51,7 @@ if ($result) {
                     <th scope="col">Email</th>
                     <th scope="col">Age</th>
                     <th scope="col">Phone</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +62,13 @@ if ($result) {
                         <td><?= $value['email'] ?></td>
                         <td><?= $value['age'] ?></td>
                         <td><?= $value['phone_number'] ?></td>
+                        <td>
+                            <form action="operations/users/delete.php" method="post" class="d-flex justify-content-center">
+                                <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
+                                <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach ?>
             </tbody>
