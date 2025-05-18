@@ -38,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
 ?>
 
-
 <section>
     <h3>Create Forum</h3>
     <form method="post">

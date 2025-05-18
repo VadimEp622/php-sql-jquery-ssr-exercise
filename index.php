@@ -16,7 +16,6 @@ display_flash_message(FLASH_OPERATION_USER_DELETE);
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 

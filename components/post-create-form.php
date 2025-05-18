@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
     $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    echo 'email:' . $email . '<br>';
-    echo 'title:' . $title . '<br>';
-    echo 'content:' . $content . '<br>';
-    echo 'forum:' . $forum . '<br>';
+    // echo 'email:' . $email . '<br>';
+    // echo 'title:' . $title . '<br>';
+    // echo 'content:' . $content . '<br>';
+    // echo 'forum:' . $forum . '<br>';
 
     if (empty($email) || empty($title) || empty($content) || empty($forum)) {
         if (empty($email)) {
@@ -54,8 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
 ?>
 
-
-
 <section>
     <h3>Create Post</h3>
     <form method="post" class="w-50">
@@ -72,9 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
         </div>
 
         <div class="row mb-3">
-            <label for="post_title" class="col-sm-3 col-form-label">Title</label>
+            <label for="title" class="col-sm-3 col-form-label">Title</label>
             <div class="col-sm-9">
-                <input type="text" name="post_title" class="form-control">
+                <input type="text" name="title" class="form-control">
             </div>
             <?php if ($validation['title']['error']) : ?>
                 <div class="text-danger"><?= $validation['title']['message'] ?></div>

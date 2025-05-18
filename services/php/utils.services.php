@@ -15,7 +15,7 @@ function redirect_to_current_page_and_die()
         $redirectRoute = $currentRoute;
     }
 
-    Header("Location: ./" . $redirectRoute);
+    Header("Location: ./$redirectRoute");
     die();
 }
 
