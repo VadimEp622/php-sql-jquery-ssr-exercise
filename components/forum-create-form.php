@@ -9,8 +9,10 @@ $validation = array(
     'title' => array('error' => false, 'message' => '')
 );
 
+$currentForm = 'forum_create_form';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (empty($title)) {
@@ -40,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <section>
     <h3>Create Forum</h3>
     <form method="post">
+        <input type="hidden" name="current_form" value="<?= $currentForm ?>">
         <div>
             <label for="title">Title</label>
             <input type="text" placeholder="Title" name="title">

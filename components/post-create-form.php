@@ -12,11 +12,13 @@ $validation = array(
     'email' => array('error' => false, 'message' => '')
 );
 
+$currentForm = 'post_create_form';
+
 // TODO: 
 // 1) mysql query all forums into selector
 // 2) handle forums query errors
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -57,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <section>
     <h3>Create Post</h3>
     <form method="post" class="w-50">
+        <input type="hidden" name="current_form" value="<?= $currentForm ?>">
 
         <div class="row mb-3">
             <label for="email" class="col-sm-3 col-form-label">Email</label>
@@ -69,9 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="row mb-3">
-            <label for="title" class="col-sm-3 col-form-label">Title</label>
+            <label for="post_title" class="col-sm-3 col-form-label">Title</label>
             <div class="col-sm-9">
-                <input type="text" name="title" class="form-control">
+                <input type="text" name="post_title" class="form-control">
             </div>
             <?php if ($validation['title']['error']) : ?>
                 <div class="text-danger"><?= $validation['title']['message'] ?></div>
