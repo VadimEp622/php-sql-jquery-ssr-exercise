@@ -29,9 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
         } else {
             create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
         }
+        
+        display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 
-
-        redirect_to_current_page_and_die();
+        // redirect_to_current_page_and_die();
     }
 }
 
@@ -40,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
 <section>
     <h3>Create Forum</h3>
-    <form method="post">
+    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <input type="hidden" name="current_form" value="<?= $currentForm ?>">
         <div>
             <label for="title">Title</label>

@@ -5,18 +5,17 @@ const ROUTES = array('index.php', 'admin.php');
 function redirect_to_current_page_and_die()
 {
     $currentRoute = basename(htmlspecialchars($_SERVER["PHP_SELF"]));
-    $redirectRoute = '';
+    $outputRoute = '';
 
     if (!in_array($currentRoute, ROUTES)) {
         $currentRoute = 'index.php';
     }
 
     if ($currentRoute !== 'index.php') {
-        $redirectRoute = $currentRoute;
+        $outputRoute = $currentRoute;
     }
 
-    Header("Location: ./$redirectRoute");
-    die();
+    exit(header("Location: ./$outputRoute"));
 }
 
 function get_current_route()

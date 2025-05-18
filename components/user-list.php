@@ -26,8 +26,6 @@ if (true) {
 }
 
 $currentRoute = get_current_route();
-
-
 ?>
 
 <section>
