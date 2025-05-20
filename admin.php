@@ -6,7 +6,19 @@ display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);
 display_flash_message(FLASH_OPERATION_USER_DELETE);
 
-?><!DOCTYPE html>
+
+
+// INFO: include rendered components here and not directly in the html body,
+//        to prevent header redirect errors (Functions that send/modify HTTP headers must be invoked before any output is made. Otherwise the call fails)
+// ################ Views ################
+include_once __DIR__ . '/components/navbar.php';
+echo '<h1>ADMIN</h1>';
+include_once __DIR__ . '/components/user-list.php';
+include_once __DIR__ . '/components/post-create-form.php';
+include_once __DIR__ . '/components/forum-create-form.php';
+include_once __DIR__ . '/components/forum-list.php';
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,13 +33,6 @@ display_flash_message(FLASH_OPERATION_USER_DELETE);
 </head>
 
 <body>
-    <?php include_once __DIR__ . '/components/navbar.php' ?>
-    <h1>ADMIN</h1>
-    <?php include_once __DIR__ . '/components/post-create-form.php' ?>
-    <?php include_once __DIR__ . '/components/user-list.php' ?>
-    <?php include_once __DIR__ . '/components/forum-create-form.php' ?>
-    <?php include_once __DIR__ . '/components/forum-list.php' ?>
-
     <script src="services/js/utils.services.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script>

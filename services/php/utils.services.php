@@ -15,7 +15,8 @@ function redirect_to_current_page_and_die()
         $outputRoute = $currentRoute;
     }
 
-    exit(header("Location: ./$outputRoute"));
+    header(sprintf('Location: %s', $outputRoute));
+    exit;
 }
 
 function get_current_route()

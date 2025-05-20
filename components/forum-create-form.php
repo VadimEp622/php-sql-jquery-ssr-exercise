@@ -29,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
         } else {
             create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
         }
-        
+
         display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 
-        // redirect_to_current_page_and_die();
+        redirect_to_current_page_and_die();
     }
 }
 
