@@ -29,7 +29,7 @@ if ($queryForumsResult) {
 
     if (count($forums) == 0) {
         $res['error']   = true;
-        $res['message'] = "No forums found!";
+        $res['message'] = "No forums found! either create one, or reload this page";
     }
     $res['forums'] = $forums;
 } else {
