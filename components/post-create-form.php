@@ -46,10 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
     $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    // echo 'email:' . $email . '<br>';
-    // echo 'title:' . $title . '<br>';
-    // echo 'content:' . $content . '<br>';
-    // echo 'forum:' . $forum . '<br>';
+    echo '<br>' . 'email:' . $email . '<br>';
+    echo 'title:' . $title . '<br>';
+    echo 'content:' . $content . '<br>';
+    echo 'forum:' . $forum . '<br>';
 
     if (empty($email) || empty($title) || empty($content) || empty($forum)) {
         if (empty($email)) {
@@ -64,12 +64,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
             $validation['content']['error'] = true;
             $validation['content']['message'] = "Content is required";
         }
-        // if (empty($forum)) {
-        //     $validation['forum']['error'] = true;
-        //     $validation['forum']['message'] = "Forum is required";
-        // }
-
+        if (empty($forum)) {
+            $validation['forum']['error'] = true;
+            $validation['forum']['message'] = "Forum is required";
+        }
     } else {
+        // TODO: 
+        //   * check if email is valid
+        //   * check if email actually exists
+        //   * check if title is valid
+        //   * check if content is valid
+        //   * check if forum (forum id) is valid
+        //   * check if forum (forum id) exists
     }
 }
 
@@ -120,10 +126,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
                 <label for="forum" class="col-sm-3 col-form-label">Forum</label>
                 <div class="col-sm-9">
                     <select name="forum" class="form-select" aria-label="forum select">
-                        <option value="null" selected>Select forum</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value='' selected>Select forum</option>
+                        <?php foreach ($res['forums'] as $forum) : ?>
+                            <option value="<?= $forum['id'] ?>"><?= $forum['title'] ?></option>
+                        <?php endforeach ?>
                     </select>
                 </div>
                 <?php if ($validation['forum']['error']) : ?>
