@@ -41,10 +41,10 @@ print_json($res);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
-    $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_SPECIAL_CHARS);
+    $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_NUMBER_INT);
 
     echo '<br>' . 'email:' . $email . '<br>';
     echo 'title:' . $title . '<br>';
