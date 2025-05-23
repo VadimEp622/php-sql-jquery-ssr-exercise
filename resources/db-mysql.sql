@@ -16,6 +16,7 @@
 --          example: <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
 --          according to online research, it is useful when using routes and contollers,
 --          however, people recommended to handle form submits in another file, and redirect back, due to f5 refresh resubmit issue
+-- 3) simplest way to add env variables is to use a .env file, however that requires setting up a composer
 -- ################################################################################
 
 

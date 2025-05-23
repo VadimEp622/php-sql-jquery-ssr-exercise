@@ -80,6 +80,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
     if (!hasValidationErrors($validation)) {
         echo 'no validation errors';
+
+        $sql = "INSERT INTO Posts (poster_email, title, content, forum_id) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssi", $email, $title, $content, $forum); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            create_flash_message(FLASH_OPERATION_POST_CREATE, "Post created successfully", FLASH_SUCCESS);
+        } else {
+            create_flash_message(FLASH_OPERATION_POST_CREATE, "Post creation failed", FLASH_ERROR);
+        }
+
+        redirect_to_current_page_and_die();
     }
 
     // TODO: 

@@ -5,10 +5,8 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // TODO:
 // 1) add some bootstrap styling
 // 2) add user/forums components/operations 
-// 3) add env variables - (simplest and best way is to use .env, however it requires composer)
-// 4) add forums sorting
-// 5) add create post, with input of email, to connect user to post.
-// 6) add post list (table)
+// 3) add sorting
+// 4) add post list (table)
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);
