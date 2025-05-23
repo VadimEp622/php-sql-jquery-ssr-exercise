@@ -14,9 +14,8 @@ $validation = array(
 
 $currentForm = 'post_create_form';
 
-// TODO: 
-// 1) mysql query all forums into selector
-// 2) handle forums query errors
+
+// TODO: see if I can abstract any db action to a function, for readability
 
 
 $queryForumsSql = "SELECT * FROM Forums";
@@ -79,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     }
 
     if (!hasValidationErrors($validation)) {
-        echo 'no validation errors';
+        // echo 'no validation errors';
 
         $sql = "INSERT INTO Posts (poster_email, title, content, forum_id) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -94,11 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
         redirect_to_current_page_and_die();
     }
-
-    // TODO: 
-    //   * make post mysql insert
-
-
 }
 
 function checkIfEmailExists($conn, $email): bool
