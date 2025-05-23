@@ -48,10 +48,10 @@ CREATE TABLE Posts (
     title varchar(255) NOT NULL,
     content text NOT NULL,
     forum_id int NOT NULL,
-    original_poster_id int NOT NULL, 
+    poster_email varchar(255) NOT NULL,
     created_at datetime NOT NULL DEFAULT NOW(),
     updated_at datetime NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (id),
     FOREIGN KEY (forum_id) REFERENCES Forums(id),
-    FOREIGN KEY (original_poster_id) REFERENCES Users(id)
+    FOREIGN KEY (poster_email) REFERENCES Users(email)
 );

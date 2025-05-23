@@ -98,7 +98,6 @@ function checkIfEmailExists($conn, $email): bool
     return $result->num_rows > 0;
 }
 
-
 function hasValidationErrors(array $validation): bool
 {
     foreach ($validation as $field => $data) {
