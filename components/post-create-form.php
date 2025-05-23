@@ -37,7 +37,7 @@ if ($queryForumsResult) {
     $res['message'] = "Forums list fetch failed!";
 }
 
-print_json($res);
+// print_json($res);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
@@ -46,39 +46,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
     $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_NUMBER_INT);
 
-    echo '<br>' . 'email:' . $email . '<br>';
-    echo 'title:' . $title . '<br>';
-    echo 'content:' . $content . '<br>';
-    echo 'forum:' . $forum . '<br>';
+    // echo '<br>' . 'email:' . $email . '<br>';
+    // echo 'title:' . $title . '<br>';
+    // echo 'content:' . $content . '<br>';
+    // echo 'forum:' . $forum . '<br>';
 
-    if (empty($email) || empty($title) || empty($content) || empty($forum)) {
-        if (empty($email)) {
-            $validation['email']['error'] = true;
-            $validation['email']['message'] = "Email is required";
-        }
-        if (empty($title)) {
-            $validation['title']['error'] = true;
-            $validation['title']['message'] = "Title is required";
-        }
-        if (empty($content)) {
-            $validation['content']['error'] = true;
-            $validation['content']['message'] = "Content is required";
-        }
-        if (empty($forum)) {
-            $validation['forum']['error'] = true;
-            $validation['forum']['message'] = "Forum is required";
-        }
-    } else {
-        // TODO: 
-        //   * check if email is valid
-        //   * check if email actually exists
-        //   * check if title is valid
-        //   * check if content is valid
-        //   * check if forum (forum id) is valid
-        //   * check if forum (forum id) exists
+
+    if (empty($email)) {
+        $validation['email']['error'] = true;
+        $validation['email']['message'] = "Email is required";
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $validation['email']['error'] = true;
+        $validation['email']['message'] = "Email is invalid";
+    } else if (!checkIfEmailExists($conn, $email)) {
+        $validation['email']['error'] = true;
+        $validation['email']['message'] = "Email does not exist";
     }
+    if (empty($title)) {
+        $validation['title']['error'] = true;
+        $validation['title']['message'] = "Title is required";
+    }
+    if (empty($content)) {
+        $validation['content']['error'] = true;
+        $validation['content']['message'] = "Content is required";
+    }
+    if (empty($forum)) {
+        $validation['forum']['error'] = true;
+        $validation['forum']['message'] = "Forum is required";
+    } else if (!filter_var($forum, FILTER_VALIDATE_INT)) {
+        $validation['forum']['error'] = true;
+        $validation['forum']['message'] = "Forum is invalid";
+    }
+
+    if (!hasValidationErrors($validation)) {
+        echo 'no validation errors';
+    }
+
+    // TODO: 
+    //   * make post mysql insert
+
+
 }
 
+function checkIfEmailExists($conn, $email): bool
+{
+    $sql = "SELECT * FROM Users WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
+
+
+function hasValidationErrors(array $validation): bool
+{
+    foreach ($validation as $field => $data) {
+        if ($data['error']) {
+            return true;
+        }
+    }
+    return false;
+}
 
 ?>
 
@@ -95,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
             <div class="row mb-3">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                 <div class="col-sm-9">
-                    <input type="email" name="email" class="form-control">
+                    <input type="email" name="email" class="form-control" value="<?= isset($email) ? $email : '' ?>">
                 </div>
                 <?php if ($validation['email']['error']) : ?>
                     <div class="text-danger"><?= $validation['email']['message'] ?></div>
@@ -105,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
             <div class="row mb-3">
                 <label for="title" class="col-sm-3 col-form-label">Title</label>
                 <div class="col-sm-9">
-                    <input type="text" name="title" class="form-control">
+                    <input type="text" name="title" class="form-control" value="<?= isset($title) ? $title : '' ?>">
                 </div>
                 <?php if ($validation['title']['error']) : ?>
                     <div class="text-danger"><?= $validation['title']['message'] ?></div>
@@ -115,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
             <div class="row mb-3">
                 <label for="content" class="col-sm-3 col-form-label">Content</label>
                 <div class="col-sm-9">
-                    <textarea name="content" class="form-control" aria-label="post content"></textarea>
+                    <textarea name="content" class="form-control" aria-label="post content"><?= isset($content) ? $content : '' ?></textarea>
                 </div>
                 <?php if ($validation['content']['error']) : ?>
                     <div class="text-danger"><?= $validation['content']['message'] ?></div>
