@@ -16,6 +16,7 @@ include_once __DIR__ . '/components/navbar.php';
 echo '<h1>ADMIN</h1>';
 include_once __DIR__ . '/components/user-list.php';
 include_once __DIR__ . '/components/post-create-form.php';
+include_once __DIR__ . '/components/post-list.php';
 include_once __DIR__ . '/components/forum-create-form.php';
 include_once __DIR__ . '/components/forum-list.php';
 ?>
