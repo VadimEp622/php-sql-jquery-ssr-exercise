@@ -28,7 +28,7 @@ if (true) {
     $res['message'] = "Posts fetch failed!";
 }
 
-print_json($res);
+// print_json($res);
 $currentRoute = get_current_route();
 ?>
 

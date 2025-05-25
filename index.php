@@ -6,7 +6,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // 1) add some bootstrap styling
 // 2) add user/forums components/operations 
 // 3) add sorting
-// 4) add post list (table)
+// 4) fix post list with sql joins
 // 5) add db action error handling (try/catch ?)
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
