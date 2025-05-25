@@ -7,6 +7,7 @@ $res = array('error' => false, 'message' => 'Template error message');
 // TODO: 
 //      1) select only data that is needed
 //      2) get forum title using forum_id (some form of join)
+//      3) fix if(true) function
 
 
 $sql = "SELECT * FROM Posts";
