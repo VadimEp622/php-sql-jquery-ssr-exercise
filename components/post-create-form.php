@@ -17,21 +17,20 @@ $currentForm = 'post_create_form';
 
 // TODO: see if I can abstract any db action to a function, for readability
 
-
-$queryForumsSql = "SELECT * FROM Forums";
-$queryForumsResult = $conn->query($queryForumsSql);
-if ($queryForumsResult) {
-    $forums  = array();
-    while ($row = $queryForumsResult->fetch_assoc()) {
-        array_push($forums, $row);
-    }
-
-    if (count($forums) == 0) {
+try {
+    $queryForumsSql = "SELECT * FROM Forums";
+    $queryForumsResult = $conn->query($queryForumsSql);
+    if ($queryForumsResult->num_rows > 0) {
+        $forums  = array();
+        while ($row = $queryForumsResult->fetch_assoc()) {
+            array_push($forums, $row);
+        }
+        $res['forums'] = $forums;
+    } else {
         $res['error']   = true;
         $res['message'] = "No forums found! either create one, or reload this page";
     }
-    $res['forums'] = $forums;
-} else {
+} catch (Exception $e) {
     $res['error']   = true;
     $res['message'] = "Forums list fetch failed!";
 }
@@ -79,19 +78,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
 
     if (!hasValidationErrors($validation)) {
         // echo 'no validation errors';
+        try {
+            $sql = "INSERT INTO Posts (poster_email, title, content, forum_id) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssi", $email, $title, $content, $forum); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+            $stmt->execute();
 
-        $sql = "INSERT INTO Posts (poster_email, title, content, forum_id) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $email, $title, $content, $forum); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            create_flash_message(FLASH_OPERATION_POST_CREATE, "Post created successfully", FLASH_SUCCESS);
-        } else {
+            if ($stmt->affected_rows > 0) {
+                create_flash_message(FLASH_OPERATION_POST_CREATE, "Post created successfully", FLASH_SUCCESS);
+            } else {
+                create_flash_message(FLASH_OPERATION_POST_CREATE, "Post creation failed", FLASH_ERROR);
+            }
+        } catch (Exception $e) {
             create_flash_message(FLASH_OPERATION_POST_CREATE, "Post creation failed", FLASH_ERROR);
+        } finally {
+            redirect_to_current_page_and_die();
         }
-
-        redirect_to_current_page_and_die();
     }
 }
 
@@ -103,16 +105,6 @@ function checkIfEmailExists($conn, $email): bool
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->num_rows > 0;
-}
-
-function hasValidationErrors(array $validation): bool
-{
-    foreach ($validation as $field => $data) {
-        if ($data['error']) {
-            return true;
-        }
-    }
-    return false;
 }
 
 ?>

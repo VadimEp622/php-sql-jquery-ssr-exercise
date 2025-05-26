@@ -6,7 +6,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // 1) add some bootstrap styling
 // 2) add user/forums components/operations 
 // 3) add sorting
-// 4) add db action error handling (try/catch ?) (do like here:  https://www.w3schools.com/php/php_mysql_select_where.asp)
+// 4) add (try/catch ?) to helper function checkIfEmailExists()
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);

@@ -29,6 +29,16 @@ function get_current_route()
     return $currentRoute;
 }
 
+function hasValidationErrors(array $validation): bool
+{
+    foreach ($validation as $field => $data) {
+        if ($data['error']) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // learning purposes
 function print_organized_global_server_variable()
 {

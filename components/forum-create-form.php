@@ -18,22 +18,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     if (empty($title)) {
         $validation['title']['error'] = true;
         $validation['title']['message'] = "Title is required";
-    } else {
-        $sql = "INSERT INTO Forums (title) VALUES (?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $title); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-        $stmt->execute();
+    } else if (checkIfForumTitleAlreadyExists($conn, $title)) {
+        $validation['title']['error'] = true;
+        $validation['title']['message'] = "Title already exists";
+    }
 
-        if ($stmt->affected_rows > 0) {
-            create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum created successfully", FLASH_SUCCESS);
-        } else {
+    if (!hasValidationErrors($validation)) {
+        try {
+            $sql = "INSERT INTO Forums (title) VALUES (?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $title); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum created successfully", FLASH_SUCCESS);
+            } else {
+                create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
+            }
+        } catch (Exception $e) {
             create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
+        } finally {
+            redirect_to_current_page_and_die();
         }
-
-        redirect_to_current_page_and_die();
     }
 }
 
+function checkIfForumTitleAlreadyExists($conn, $forumTitle): bool
+{
+    $sql = "SELECT * FROM Forums WHERE title = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $forumTitle); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
 
 ?>
 
