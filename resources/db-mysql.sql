@@ -3,6 +3,8 @@
 -- A) The DEFAULT constraint provides a default value for a column.
 --      The default value will be added to all new records if no other value is specified.
 --      The DEFAULT constraint can also be used to insert system values, by using functions like GETDATE():
+-- B) Using FOREIGN KEY, references a table's row to another table's row. 
+--      This causes the the referenced table's attempt to delete a row to fail, unless no rows in other tables refer to it
 -- ##################################################################################################
 
 
@@ -17,6 +19,7 @@
 --          according to online research, it is useful when using routes and contollers,
 --          however, people recommended to handle form submits in another file, and redirect back, due to f5 refresh resubmit issue
 -- 3) simplest way to add env variables is to use a .env file, however that requires setting up a composer
+
 -- ################################################################################
 
 
