@@ -53,6 +53,5 @@ CREATE TABLE Posts (
     created_at datetime NOT NULL DEFAULT NOW(),
     updated_at datetime NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (id),
-    FOREIGN KEY (forum_id) REFERENCES Forums(id),
     FOREIGN KEY (poster_email) REFERENCES Users(email)
 );
