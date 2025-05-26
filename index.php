@@ -7,7 +7,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // 2) add user/forums components/operations 
 // 3) add sorting
 // 4) fix post list with sql joins
-// 5) add db action error handling (try/catch ?)
+// 5) add db action error handling (try/catch ?) (do like here:  https://www.w3schools.com/php/php_mysql_select_where.asp)
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
 display_flash_message(FLASH_OPERATION_FORUM_DELETE);

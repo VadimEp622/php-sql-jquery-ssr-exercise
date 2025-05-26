@@ -8,21 +8,16 @@ $res = array('error' => false, 'message' => 'Template error message');
 $sql = "SELECT id, full_name, email, age, phone_number FROM Users";
 $result = $conn->query($sql);
 
-if (true) {
+if ($result->num_rows > 0) {
     $users  = array();
     while ($row = $result->fetch_assoc()) {
         array_push($users, $row);
     }
     $res['users'] = $users;
-
-    if (count($users) == 0) {
-        $res['error']   = true;
-        $res['message'] = "No users found!";
-        $res['is_error_no_users'] = true;
-    }
 } else {
     $res['error']   = true;
-    $res['message'] = "Forums list fetch failed!";
+    $res['message'] = "No users found!";
+    $res['is_error_no_users'] = true;
 }
 
 $currentRoute = get_current_route();

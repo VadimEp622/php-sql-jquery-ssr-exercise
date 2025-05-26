@@ -7,26 +7,20 @@ $res = array('error' => false, 'message' => 'Template error message');
 // TODO: 
 //      1) select only data that is needed
 //      2) get forum title using forum_id (some form of join)
-//      3) fix if(true) function
 
 
 $sql = "SELECT * FROM Posts";
 $result = $conn->query($sql);
 
-if (true) {
+if ($result->num_rows > 0) {
     $posts  = array();
     while ($row = $result->fetch_assoc()) {
         array_push($posts, $row);
     }
     $res['posts'] = $posts;
-
-    if (count($posts) == 0) {
-        $res['error']   = true;
-        $res['message'] = "No posts found!";
-    }
 } else {
     $res['error']   = true;
-    $res['message'] = "Posts fetch failed!";
+    $res['message'] = "No posts found!";
 }
 
 // print_json($res);
