@@ -1,6 +1,43 @@
 <?php
 
 
+function fetchUsers($conn, &$res): void
+{
+    try {
+        $sql = "SELECT id, full_name, email, age, phone_number FROM Users";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $users  = array();
+            while ($row = $result->fetch_assoc()) {
+                array_push($users, $row);
+            }
+            $res['users'] = $users;
+        } else {
+            $res['error']   = true;
+            $res['message'] = "No users found!";
+            $res['is_error_no_users'] = true;
+        }
+    } catch (Exception $e) {
+        $res['error']   = true;
+        $res['message'] = "Users list fetch failed!";
+    }
+}
+
+function checkIfUserEmailExists($conn, $email): bool
+{
+    try {
+        $sql = "SELECT * FROM Users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 function get_demo_users()
 {
     return array(

@@ -1,29 +1,11 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
+require_once __DIR__ . '/../services/php/forum.services.php';
 
 $res = array('error' => false, 'message' => 'Template error message');
 
-$sql = "SELECT * FROM Forums";
-$result = $conn->query($sql);
-
-// TODO: handle no forums found
-if ($result) {
-    $forums  = array();
-    while ($row = $result->fetch_assoc()) {
-        array_push($forums, $row);
-    }
-
-    if (count($forums) == 0) {
-        $res['error']   = true;
-        $res['message'] = "No forums found!";
-    }
-    $res['forums'] = $forums;
-} else {
-    $res['error']   = true;
-    $res['message'] = "Forums list fetch failed!";
-}
-
+fetchForums($conn, $res);
 
 $currentRoute = get_current_route();
 

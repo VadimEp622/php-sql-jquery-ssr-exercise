@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/flash.services.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
+require_once __DIR__ . '/../services/php/forum.services.php';
+require_once __DIR__ . '/../services/php/user.services.php';
+
 
 $res = array('error' => false, 'message' => 'Template error message');
 
@@ -15,26 +18,8 @@ $validation = array(
 $currentForm = 'post_create_form';
 
 
-// TODO: see if I can abstract any db action to a function, for readability
 
-try {
-    $queryForumsSql = "SELECT * FROM Forums";
-    $queryForumsResult = $conn->query($queryForumsSql);
-    if ($queryForumsResult->num_rows > 0) {
-        $forums  = array();
-        while ($row = $queryForumsResult->fetch_assoc()) {
-            array_push($forums, $row);
-        }
-        $res['forums'] = $forums;
-    } else {
-        $res['error']   = true;
-        $res['message'] = "No forums found! either create one, or reload this page";
-    }
-} catch (Exception $e) {
-    $res['error']   = true;
-    $res['message'] = "Forums list fetch failed!";
-}
-
+fetchForums($conn, $res);
 // print_json($res);
 
 
@@ -56,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $validation['email']['error'] = true;
         $validation['email']['message'] = "Email is invalid";
-    } else if (!checkIfEmailExists($conn, $email)) {
+    } else if (!checkIfUserEmailExists($conn, $email)) {
         $validation['email']['error'] = true;
         $validation['email']['message'] = "Email does not exist";
     }
@@ -95,16 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
             redirect_to_current_page_and_die();
         }
     }
-}
-
-function checkIfEmailExists($conn, $email): bool
-{
-    $sql = "SELECT * FROM Users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->num_rows > 0;
 }
 
 ?>

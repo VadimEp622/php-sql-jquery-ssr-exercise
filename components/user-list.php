@@ -5,20 +5,7 @@ require_once __DIR__ . '/../services/php/utils.services.php';
 
 $res = array('error' => false, 'message' => 'Template error message');
 
-$sql = "SELECT id, full_name, email, age, phone_number FROM Users";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $users  = array();
-    while ($row = $result->fetch_assoc()) {
-        array_push($users, $row);
-    }
-    $res['users'] = $users;
-} else {
-    $res['error']   = true;
-    $res['message'] = "No users found!";
-    $res['is_error_no_users'] = true;
-}
+fetchUsers($conn, $res);
 
 $currentRoute = get_current_route();
 ?>

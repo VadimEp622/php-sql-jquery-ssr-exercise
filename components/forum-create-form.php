@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/flash.services.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
+require_once __DIR__ . '/../services/php/forum.services.php';
 
 $res = array('error' => false, 'message' => 'Template error message');
 
@@ -43,15 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     }
 }
 
-function checkIfForumTitleAlreadyExists($conn, $forumTitle): bool
-{
-    $sql = "SELECT * FROM Forums WHERE title = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $forumTitle); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->num_rows > 0;
-}
 
 ?>
 
