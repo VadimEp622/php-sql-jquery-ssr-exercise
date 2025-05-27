@@ -9,6 +9,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // 3) add sorting
 // 4) add try/catch to operations
 // 5) abstact operations redirects
+// 6) unite functions to either camel-case or snake-case
 
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
