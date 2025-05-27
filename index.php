@@ -7,6 +7,7 @@ require_once __DIR__ . '/services/php/flash.services.php';
 // 1) add some bootstrap styling
 // 2) add user/forums components/operations 
 // 3) add sorting
+// 4) add try/catch to operations
 
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
