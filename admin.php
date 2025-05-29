@@ -1,6 +1,8 @@
 <?php
 session_start();
+require_once __DIR__ . '/config/db-conn.php';
 require_once __DIR__ . '/services/php/flash.services.php';
+require_once __DIR__ . '/services/php/form-handler.services.php';
 
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
@@ -10,17 +12,34 @@ display_flash_message(FLASH_OPERATION_POST_CREATE);
 display_flash_message(FLASH_OPERATION_POST_DELETE);
 
 
+$res = array(
+    'post-create-form' => array('error' => false, 'message' => 'Template error message'),
+    'forum-create-form' => array('error' => false, 'message' => 'Template error message'),
+    'user-list' => array('error' => false, 'message' => 'Template error message'),
+    'post-list' => array('error' => false, 'message' => 'Template error message'),
+    'forum-list' => array('error' => false, 'message' => 'Template error message')
+);
 
-// INFO: include rendered components here and not directly in the html body,
-//        to prevent header redirect errors (Functions that send/modify HTTP headers must be invoked before any output is made. Otherwise the call fails)
-// ################ Views ################
-include_once __DIR__ . '/components/navbar.php';
-echo '<h1>ADMIN</h1>';
-include_once __DIR__ . '/components/user-list.php';
-include_once __DIR__ . '/components/post-create-form.php';
-include_once __DIR__ . '/components/post-list.php';
-include_once __DIR__ . '/components/forum-create-form.php';
-include_once __DIR__ . '/components/forum-list.php';
+
+$validation = array(
+    'post_create_form' => array(
+        'title' => array('error' => false, 'message' => ''),
+        'content' => array('error' => false, 'message' => ''),
+        'forum' => array('error' => false, 'message' => ''),
+        'email' => array('error' => false, 'message' => '')
+    ),
+    'forum_create_form' => array(
+        'title' => array('error' => false, 'message' => '')
+    )
+);
+
+
+// INFO: form handling on POST (validate and actual db action), happens here, before any output is made, for clean Header function redirections 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form'])) {
+    if ($_POST['current_form'] == 'post_create_form') form_handler_post_create($conn,  $validation);
+    if ($_POST['current_form'] == 'forum_create_form') form_handler_forum_create($conn,  $validation);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +56,15 @@ include_once __DIR__ . '/components/forum-list.php';
 </head>
 
 <body>
+    <?php include_once __DIR__ . '/components/navbar.php'; ?>
+    <h1>ADMIN</h1>
+    <?php include_once __DIR__ . '/components/user-list.php'; ?>
+    <?php include_once __DIR__ . '/components/post-create-form.php'; ?>
+    <?php include_once __DIR__ . '/components/post-list.php'; ?>
+    <?php include_once __DIR__ . '/components/forum-create-form.php'; ?>
+    <?php include_once __DIR__ . '/components/forum-list.php'; ?>
+
+
     <script src="services/js/utils.services.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script>

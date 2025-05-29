@@ -1,106 +1,43 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/flash.services.php';
-require_once __DIR__ . '/../services/php/utils.services.php';
 require_once __DIR__ . '/../services/php/forum.services.php';
-require_once __DIR__ . '/../services/php/user.services.php';
 
 
-$res = array('error' => false, 'message' => 'Template error message');
-
-$validation = array(
-    'title' => array('error' => false, 'message' => ''),
-    'content' => array('error' => false, 'message' => ''),
-    'forum' => array('error' => false, 'message' => ''),
-    'email' => array('error' => false, 'message' => '')
-);
-
-$currentForm = 'post_create_form';
+$current_cmp = 'post-create-form';
+$current_form = 'post_create_form';
 
 
-
-fetchForums($conn, $res);
-// print_json($res);
+fetch_forums($conn, $res[$current_cmp]);
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $current_form) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
     $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_NUMBER_INT);
-
-    // echo '<br>' . 'email:' . $email . '<br>';
-    // echo 'title:' . $title . '<br>';
-    // echo 'content:' . $content . '<br>';
-    // echo 'forum:' . $forum . '<br>';
-
-
-    if (empty($email)) {
-        $validation['email']['error'] = true;
-        $validation['email']['message'] = "Email is required";
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $validation['email']['error'] = true;
-        $validation['email']['message'] = "Email is invalid";
-    } else if (!checkIfUserEmailExists($conn, $email)) {
-        $validation['email']['error'] = true;
-        $validation['email']['message'] = "Email does not exist";
-    }
-    if (empty($title)) {
-        $validation['title']['error'] = true;
-        $validation['title']['message'] = "Title is required";
-    }
-    if (empty($content)) {
-        $validation['content']['error'] = true;
-        $validation['content']['message'] = "Content is required";
-    }
-    if (empty($forum)) {
-        $validation['forum']['error'] = true;
-        $validation['forum']['message'] = "Forum is required";
-    } else if (!filter_var($forum, FILTER_VALIDATE_INT)) {
-        $validation['forum']['error'] = true;
-        $validation['forum']['message'] = "Forum is invalid";
-    }
-
-    if (!hasValidationErrors($validation)) {
-        // echo 'no validation errors';
-        try {
-            $sql = "INSERT INTO Posts (poster_email, title, content, forum_id) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $email, $title, $content, $forum); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                create_flash_message(FLASH_OPERATION_POST_CREATE, "Post created successfully", FLASH_SUCCESS);
-            } else {
-                create_flash_message(FLASH_OPERATION_POST_CREATE, "Post creation failed", FLASH_ERROR);
-            }
-        } catch (Exception $e) {
-            create_flash_message(FLASH_OPERATION_POST_CREATE, "Post creation failed", FLASH_ERROR);
-        } finally {
-            redirect_to_current_page_and_die();
-        }
-    }
 }
+
 
 ?>
 
 <section>
     <h3>Create Post</h3>
-    <?php if ($res['error']) : ?>
+    <?php if ($res[$current_cmp]['error']) : ?>
         <div class="text-danger">Error</div>
-        <div class="text-danger"><?= $res['message'] ?></div>
+        <div class="text-danger"><?= $res[$current_cmp]['message'] ?></div>
         <a class="btn btn-secondary" href="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>">Reload this page</a>
     <?php else : ?>
         <form method="post" class="w-50">
-            <input type="hidden" name="current_form" value="<?= $currentForm ?>">
+            <input type="hidden" name="current_form" value="<?= $current_form ?>">
 
             <div class="row mb-3">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                 <div class="col-sm-9">
                     <input type="email" name="email" class="form-control" value="<?= isset($email) ? $email : '' ?>">
                 </div>
-                <?php if ($validation['email']['error']) : ?>
-                    <div class="text-danger"><?= $validation['email']['message'] ?></div>
+                <?php if ($validation[$current_form]['email']['error']) : ?>
+                    <div class="text-danger"><?= $validation[$current_form]['email']['message'] ?></div>
                 <?php endif ?>
             </div>
 
@@ -109,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
                 <div class="col-sm-9">
                     <input type="text" name="title" class="form-control" value="<?= isset($title) ? $title : '' ?>">
                 </div>
-                <?php if ($validation['title']['error']) : ?>
-                    <div class="text-danger"><?= $validation['title']['message'] ?></div>
+                <?php if ($validation[$current_form]['title']['error']) : ?>
+                    <div class="text-danger"><?= $validation[$current_form]['title']['message'] ?></div>
                 <?php endif ?>
             </div>
 
@@ -119,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
                 <div class="col-sm-9">
                     <textarea name="content" class="form-control" aria-label="post content"><?= isset($content) ? $content : '' ?></textarea>
                 </div>
-                <?php if ($validation['content']['error']) : ?>
-                    <div class="text-danger"><?= $validation['content']['message'] ?></div>
+                <?php if ($validation[$current_form]['content']['error']) : ?>
+                    <div class="text-danger"><?= $validation[$current_form]['content']['message'] ?></div>
                 <?php endif ?>
             </div>
 
@@ -129,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
                 <div class="col-sm-9">
                     <select name="forum" class="form-select" aria-label="forum select">
                         <option value='' selected>Select forum</option>
-                        <?php foreach ($res['forums'] as $forum) : ?>
+                        <?php foreach ($res[$current_cmp]['forums'] as $forum) : ?>
                             <option value="<?= $forum['id'] ?>"><?= $forum['title'] ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
-                <?php if ($validation['forum']['error']) : ?>
-                    <div class="text-danger"><?= $validation['forum']['message'] ?></div>
+                <?php if ($validation[$current_form]['forum']['error']) : ?>
+                    <div class="text-danger"><?= $validation[$current_form]['forum']['message'] ?></div>
                 <?php endif ?>
             </div>
 

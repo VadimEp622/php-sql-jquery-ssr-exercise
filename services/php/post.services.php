@@ -1,6 +1,6 @@
 <?php
 
-function fetchPosts($conn, &$res): void
+function fetch_posts($conn, &$res): void
 {
     try {
         // INFO: 

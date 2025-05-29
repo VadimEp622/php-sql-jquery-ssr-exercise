@@ -3,20 +3,18 @@ require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
 require_once __DIR__ . '/../services/php/post.services.php';
 
-$res = array('error' => false, 'message' => 'Template error message');
-
-fetchPosts($conn, $res);
-
+// $res = array('error' => false, 'message' => 'Template error message');
+$current_cmp = 'post-list';
+fetch_posts($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();
-// print_json($res);
 ?>
 
 
 <section>
     <h3>Post list</h3>
-    <?php if ($res['error']) : ?>
+    <?php if ($res[$current_cmp]['error']) : ?>
         <div class="d-flex gap-2">
-            <p style="color: red;"><?= $res['message'] ?></p>
+            <p style="color: red;"><?= $res[$current_cmp]['message'] ?></p>
         </div>
     <?php else : ?>
         <table class="table">
@@ -31,7 +29,7 @@ $currentRoute = get_current_route();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($res['posts'] as $value) : ?>
+                <?php foreach ($res[$current_cmp]['posts'] as $value) : ?>
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
                         <td><?= $value['title'] ?></td>

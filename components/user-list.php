@@ -1,21 +1,20 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
-require_once __DIR__ . '/../services/php/user.services.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
+require_once __DIR__ . '/../services/php/user.services.php';
 
-$res = array('error' => false, 'message' => 'Template error message');
 
-fetchUsers($conn, $res);
-
+$current_cmp = 'user-list';
+fetch_users($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();
 ?>
 
 <section>
     <h3>User list</h3>
-    <?php if ($res['error']) : ?>
+    <?php if ($res[$current_cmp]['error']) : ?>
         <div class="d-flex gap-2">
-            <p style="color: red;"><?= $res['message'] ?></p>
-            <?php if (isset($res['is_error_no_users']) && $res['is_error_no_users']) : ?>
+            <p style="color: red;"><?= $res[$current_cmp]['message'] ?></p>
+            <?php if (isset($res[$current_cmp]['is_error_no_users']) && $res[$current_cmp]['is_error_no_users']) : ?>
                 <form action="operations/users/populate.php" method="post">
                     <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
                     <button>Populate demo users</button>
@@ -35,7 +34,7 @@ $currentRoute = get_current_route();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($res['users'] as $value) : ?>
+                <?php foreach ($res[$current_cmp]['users'] as $value) : ?>
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
                         <td><?= $value['full_name'] ?></td>

@@ -1,61 +1,28 @@
 <?php
 require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/flash.services.php';
-require_once __DIR__ . '/../services/php/utils.services.php';
 require_once __DIR__ . '/../services/php/forum.services.php';
 
-$res = array('error' => false, 'message' => 'Template error message');
 
-$validation = array(
-    'title' => array('error' => false, 'message' => '')
-);
-
-$currentForm = 'forum_create_form';
+$current_cmp = 'forum-create-form';
+$current_form = 'forum_create_form';
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $currentForm) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_POST['current_form'] == $current_form) {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
-
-    if (empty($title)) {
-        $validation['title']['error'] = true;
-        $validation['title']['message'] = "Title is required";
-    } else if (checkIfForumTitleAlreadyExists($conn, $title)) {
-        $validation['title']['error'] = true;
-        $validation['title']['message'] = "Title already exists";
-    }
-
-    if (!hasValidationErrors($validation)) {
-        try {
-            $sql = "INSERT INTO Forums (title) VALUES (?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $title); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum created successfully", FLASH_SUCCESS);
-            } else {
-                create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
-            }
-        } catch (Exception $e) {
-            create_flash_message(FLASH_OPERATION_FORUM_CREATE, "Forum creation failed", FLASH_ERROR);
-        } finally {
-            redirect_to_current_page_and_die();
-        }
-    }
 }
-
 
 ?>
 
 <section>
     <h3>Create Forum</h3>
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <input type="hidden" name="current_form" value="<?= $currentForm ?>">
+        <input type="hidden" name="current_form" value="<?= $current_form ?>">
         <div>
             <label for="title">Title</label>
             <input type="text" placeholder="Title" name="title">
-            <?php if ($validation['title']['error']) : ?>
-                <p class="text-danger"><?= $validation['title']['message'] ?></p>
+            <?php if ($validation[$current_form]['title']['error']) : ?>
+                <p class="text-danger"><?= $validation[$current_form]['title']['message'] ?></p>
             <?php endif ?>
         </div>
         <div>

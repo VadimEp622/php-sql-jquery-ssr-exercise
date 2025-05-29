@@ -19,6 +19,19 @@ function redirect_to_current_page_and_die()
     exit;
 }
 
+// function redirect_to_route_and_die($route): void
+// {
+//     $redirectRoute = '';
+//     if (isset($route) && in_array($route, ROUTES)) {
+//         if ($_POST['current_route'] !== 'index.php') {
+//             $redirectRoute = $route;
+//         }
+//     }
+
+//     Header("Location: ../../" . $redirectRoute);
+//     exit;
+// }
+
 function get_current_route()
 {
     $currentRoute = basename(htmlspecialchars($_SERVER["PHP_SELF"]));
@@ -29,7 +42,7 @@ function get_current_route()
     return $currentRoute;
 }
 
-function hasValidationErrors(array $validation): bool
+function has_validation_errors(array $validation): bool
 {
     foreach ($validation as $field => $data) {
         if ($data['error']) {

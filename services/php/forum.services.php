@@ -1,6 +1,6 @@
 <?php
 
-function fetchForums($conn, &$res): void
+function fetch_forums($conn, &$res): void
 {
     try {
         $queryForumsSql = "SELECT * FROM Forums";
@@ -21,7 +21,7 @@ function fetchForums($conn, &$res): void
     }
 }
 
-function checkIfForumTitleAlreadyExists($conn, $forumTitle): bool
+function check_if_forum_title_already_exists($conn, $forumTitle): bool
 {
     try {
         $sql = "SELECT * FROM Forums WHERE title = ?";

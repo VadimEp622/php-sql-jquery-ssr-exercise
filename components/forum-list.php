@@ -3,21 +3,19 @@ require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
 require_once __DIR__ . '/../services/php/forum.services.php';
 
-$res = array('error' => false, 'message' => 'Template error message');
 
-fetchForums($conn, $res);
-
+$current_cmp = 'forum-list';
+fetch_forums($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();
-
 ?>
 
 <section>
     <h3>Forum list</h3>
-    <?php if ($res['error']) : ?>
-        <p style="color: red;"><?= $res['message'] ?></p>
+    <?php if ($res[$current_cmp]['error']) : ?>
+        <p style="color: red;"><?= $res[$current_cmp]['message'] ?></p>
     <?php else : ?>
         <ul id="forum-list">
-            <?php foreach ($res['forums'] as $value) : ?>
+            <?php foreach ($res[$current_cmp]['forums'] as $value) : ?>
                 <li>
                     <p><?= $value['title'] ?></p>
                     <form action="operations/forums/delete.php" method="post">

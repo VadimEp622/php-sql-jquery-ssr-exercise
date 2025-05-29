@@ -1,7 +1,7 @@
 <?php
 
 
-function fetchUsers($conn, &$res): void
+function fetch_users($conn, &$res): void
 {
     try {
         $sql = "SELECT id, full_name, email, age, phone_number FROM Users";
@@ -24,7 +24,7 @@ function fetchUsers($conn, &$res): void
     }
 }
 
-function checkIfUserEmailExists($conn, $email): bool
+function check_if_user_email_exists($conn, $email): bool
 {
     try {
         $sql = "SELECT * FROM Users WHERE email = ?";
