@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form']) && $_P
     $forum = filter_input(INPUT_POST, 'forum', FILTER_SANITIZE_NUMBER_INT);
 }
 
-
 ?>
 
 <section>

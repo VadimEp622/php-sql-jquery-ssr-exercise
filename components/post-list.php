@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/db-conn.php';
 require_once __DIR__ . '/../services/php/utils.services.php';
 require_once __DIR__ . '/../services/php/post.services.php';
 
-// $res = array('error' => false, 'message' => 'Template error message');
+
 $current_cmp = 'post-list';
 fetch_posts($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();

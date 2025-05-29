@@ -21,12 +21,12 @@ function fetch_forums($conn, &$res): void
     }
 }
 
-function check_if_forum_title_already_exists($conn, $forumTitle): bool
+function check_if_forum_title_already_exists($conn, $forum_title): bool
 {
     try {
         $sql = "SELECT * FROM Forums WHERE title = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $forumTitle); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
+        $stmt->bind_param("s", $forum_title); // The argument may be one of four types: i - integer, d - double, s - string, b - BLOB
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->num_rows > 0;

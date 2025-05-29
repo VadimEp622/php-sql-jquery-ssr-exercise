@@ -1,6 +1,5 @@
 <?php
 
-
 function fetch_users($conn, &$res): void
 {
     try {
