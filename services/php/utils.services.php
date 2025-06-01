@@ -19,18 +19,18 @@ function redirect_to_current_page_and_die()
     exit;
 }
 
-// function redirect_to_route_and_die($route): void
-// {
-//     $redirectRoute = '';
-//     if (isset($route) && in_array($route, ROUTES)) {
-//         if ($_POST['current_route'] !== 'index.php') {
-//             $redirectRoute = $route;
-//         }
-//     }
+function redirect_to_route_and_die($route): void
+{
+    $redirectRoute = '';
+    if (isset($route) && in_array($route, ROUTES)) {
+        if ($_POST['current_route'] !== 'index.php') {
+            $redirectRoute = $route;
+        }
+    }
 
-//     Header("Location: ../../" . $redirectRoute);
-//     exit;
-// }
+    Header("Location: ../../" . $redirectRoute);
+    exit;
+}
 
 function get_current_route()
 {

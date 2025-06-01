@@ -10,8 +10,7 @@ require_once __DIR__ . '/services/php/form-handler.services.php';
 // 2) add user/forums components/operations 
 // 3) add sorting
 // 4) add try/catch to operations
-// 5) abstact operations redirects
-// 6) see if it's possible to dynamically update empty initialized $res/$validation arrays, based on imported components
+// 5) see if it's possible to dynamically update empty initialized $res/$validation arrays, based on imported components
 //      (and even better, see if it's possible to make some essential required file that will be included in every page, and that file will have the above mentioned arrays)
 
 

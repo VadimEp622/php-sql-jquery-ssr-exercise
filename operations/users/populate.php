@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../../config/db-conn.php';
 require_once __DIR__ . '/../../services/php/flash.services.php';
 require_once __DIR__ . '/../../services/php/user.services.php';
+require_once __DIR__ . '/../../services/php/utils.services.php';
 
 
 $res = array('error' => false, 'message' => 'Template message');
@@ -17,15 +18,4 @@ foreach ($demo_users as $value) {
 }
 
 
-$routes = array('index.php', 'admin.php');
-
-$redirectRoute = '';
-if (isset($_POST['current_route']) && in_array($_POST['current_route'], $routes)) {
-    if ($_POST['current_route'] !== 'index.php') {
-        $redirectRoute = $_POST['current_route'];
-    }
-}
-
-
-Header("Location: ../../" . $redirectRoute);
-die();
+redirect_to_route_and_die($_POST['current_route']);
