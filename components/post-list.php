@@ -9,15 +9,14 @@ fetch_posts($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();
 ?>
 
-
-<section>
+<section class="container my-5">
     <h3>Post list</h3>
     <?php if ($res[$current_cmp]['error']) : ?>
         <div class="d-flex gap-2">
             <p style="color: red;"><?= $res[$current_cmp]['message'] ?></p>
         </div>
     <?php else : ?>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Id</th>

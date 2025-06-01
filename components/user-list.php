@@ -9,7 +9,7 @@ fetch_users($conn, $res[$current_cmp]);
 $currentRoute = get_current_route();
 ?>
 
-<section>
+<section class="container my-5">
     <h3>User list</h3>
     <?php if ($res[$current_cmp]['error']) : ?>
         <div class="d-flex gap-2">
@@ -22,35 +22,37 @@ $currentRoute = get_current_route();
             <?php endif ?>
         </div>
     <?php else : ?>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Full name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($res[$current_cmp]['users'] as $value) : ?>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <th scope="row"><?= $value['id'] ?></th>
-                        <td><?= $value['full_name'] ?></td>
-                        <td><?= $value['email'] ?></td>
-                        <td><?= $value['age'] ?></td>
-                        <td><?= $value['phone_number'] ?></td>
-                        <td>
-                            <form action="operations/users/delete.php" method="post" class="d-flex justify-content-center">
-                                <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
-                                <input type="hidden" name="id" value="<?= $value['id'] ?>">
-                                <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                            </form>
-                        </td>
+                        <th scope="col">id</th>
+                        <th scope="col">Full name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($res[$current_cmp]['users'] as $value) : ?>
+                        <tr>
+                            <th scope="row"><?= $value['id'] ?></th>
+                            <td><?= $value['full_name'] ?></td>
+                            <td><?= $value['email'] ?></td>
+                            <td><?= $value['age'] ?></td>
+                            <td><?= $value['phone_number'] ?></td>
+                            <td>
+                                <form action="operations/users/delete.php" method="post" class="d-flex justify-content-center">
+                                    <input type="hidden" name="current_route" value="<?= $currentRoute ?>">
+                                    <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
     <?php endif ?>
 </section>

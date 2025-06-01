@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['current_form'])) {
 
 <body>
     <?php include_once __DIR__ . '/components/navbar.php'; ?>
-    <h1>ADMIN</h1>
+    <h1 class="text-center">ADMIN</h1>
     <?php include_once __DIR__ . '/components/user-list.php'; ?>
     <?php include_once __DIR__ . '/components/post-create-form.php'; ?>
     <?php include_once __DIR__ . '/components/post-list.php'; ?>

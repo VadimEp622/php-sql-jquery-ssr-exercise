@@ -12,6 +12,7 @@ require_once __DIR__ . '/services/php/form-handler.services.php';
 // 4) add try/catch to operations
 // 5) see if it's possible to dynamically update empty initialized $res/$validation arrays, based on imported components
 //      (and even better, see if it's possible to make some essential required file that will be included in every page, and that file will have the above mentioned arrays)
+// 6) fix flash messages causing layout to jump (for example, adding margin-block-end:16px to forms)
 
 
 display_flash_message(FLASH_OPERATION_FORUM_CREATE);
